@@ -53,6 +53,8 @@ install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/besu.conf
 
+install -dD -m 0755 %{buildroot}%{_sharedstatedir}/besu
+
 %pre
 getent group besu >/dev/null || groupadd -r besu
 getent passwd besu >/dev/null || \
@@ -77,7 +79,7 @@ exit 0
 %{_bindir}/besu
 %{_bindir}/evmtool
 %{_unitdir}/besu.service
-%{_datadir}/besu
+%{_sharedstatedir}/besu
 %{_javadir}/%{name}/
 
 
