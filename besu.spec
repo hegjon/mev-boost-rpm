@@ -35,22 +35,21 @@ Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in J
 
 
 %build
-./gradlew --foreground --console plain installDist
+./gradlew --no-daemon --console plain installDist
 
-tree
+tree build
 
 %install
 install -dD -m 755 %{buildroot}%{_bindir}
 
-install -m 0757 besu/build/install/besu/bin/besu %{buildroot}%{_bindir}/besu
-install -m 0757 besu/build/install/besu/bin/evmtool %{buildroot}%{_bindir}/evmtool
+install -m 0755 build/install/besu/bin/besu %{buildroot}%{_bindir}/besu
+install -m 0755 build/install/besu/bin/evmtool %{buildroot}%{_bindir}/evmtool
 
-install -Dm 644 besu/build/install/besu/lib/*.jar %{buildroot}%{_javadir}/%{name}/
+install -dD -m 755 %{buildroot}%{_javadir}/%{name}/
+install -m 644 build/install/besu/lib/*.jar %{buildroot}%{_javadir}/%{name}/
 
 install -dD -m 755 %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
-
-install -dD -m 0755 %{buildroot}%{_sharedstatedir}/besu
 
 install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/besu.conf
 
@@ -74,11 +73,10 @@ exit 0
 
 
 %files
-%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/besu
+%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/besu.conf
 %{_bindir}/besu
 %{_bindir}/evmtool
 %{_unitdir}/besu.service
-%attr(0755,besu,besu) %{_sharedstatedir}/besu
 %{_datadir}/besu
 %{_javadir}/%{name}/
 

@@ -1,27 +1,33 @@
 [Unit]
-Description=Besu
-After=network.target
+Description=Besu Execution Client (Mainnet)
+Wants=network-online.target
 
 [Service]
 Type=simple
-User=storj-storagenode
-Group=storj-storagenode
-Restart=on-failure
-RestartSec=30s
+User=besu
+Group=besu
+
+Restart=always
+RestartSec=5
+
 TimeoutStopSec=300s
 
-EnvironmentFile=/etc/storj-storagenode/%i.conf
-ExecStart=/usr/bin/storagenode run \
-  --config-dir ${CONFIG_DIR} \
-  --identity-dir ~/%i/identity \
-  --console.static-dir /usr/share/storj-storagenode \
-  --metrics.app-suffix -%i \
-  --metrics.interval 30m \
-  --contact.external-address ${ADDRESS} \
-  --operator.email ${EMAIL} \
-  --operator.wallet ${WALLET} \
-  --console.address ${CONSOLE} \
-  --storage.allocated-disk-space ${STORAGE}
+WorkingDirectory=/var/lib/besu
+
+EnvironmentFile=/etc/besu.conf
+ExecStart=/usr/bin/besu \
+  --network=mainnet \
+  --data-path=/var/lib/besu \
+  --data-storage-format=BONSAI \
+  --sync-mode=X_SNAP \
+  --rpc-http-enabled=true \
+  --rpc-http-host=0.0.0.0 \
+  --rpc-ws-enabled=true \
+  --rpc-ws-host=0.0.0.0 \
+  --host-allowlist=127.0.0.1,localhost \
+  --engine-host-allowlist=127.0.0.1,localhost \
+  --engine-rpc-enabled \
+  --engine-jwt-secret=/var/lib/jwtsecret/jwt.hex
 
 [Install]
 WantedBy=multi-user.target
