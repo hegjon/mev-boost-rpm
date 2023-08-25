@@ -1,6 +1,6 @@
-# RPM files for Storj
+# RPM files for Besu
 
-[![Copr build status](https://copr.fedorainfracloud.org/coprs/jonny/Storj/package/storj/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/jonny/Storj/package/storj/)
+[![Copr build status](https://copr.fedorainfracloud.org/coprs/jonny/Ethereum/package/besu/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/jonny/Ethereum/package/besu/)
 
 Built on Fedora Copr at https://copr.fedorainfracloud.org/coprs/jonny/Ethereum/
 
