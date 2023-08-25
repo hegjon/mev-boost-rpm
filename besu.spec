@@ -79,7 +79,7 @@ exit 0
 %{_bindir}/besu
 %{_bindir}/evmtool
 %{_unitdir}/besu.service
-%{_sharedstatedir}/besu
+%attr(0755,besu,besu) %{_sharedstatedir}/besu
 %{_javadir}/%{name}/
 
 
