@@ -1,3 +1,6 @@
+%global debug_package %{nil}
+%global _build_id_links none
+
 Name:    besu
 Version: 23.7.1
 Release: 1%{?dist}
@@ -40,9 +43,12 @@ Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in J
 tree build
 
 %install
+DEFAULT_JVM_OPTS='"-Dvertx.disableFileCPResolving=true" "-Dbesu.home=/var/lib/besu" "-Dlog4j.shutdownHookEnabled=false" "-Dlog4j2.formatMsgNoLookups=true" "-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager" "--add-opens" "java.base/sun.security.provider=ALL-UNNAMED" "--add-opens" "java.base/java.util=ALL-UNNAMED" "-Dio.netty.tryReflectionSetAccessible=true" "--add-exports" "java.base/jdk.internal.misc=ALL-UNNAMED" "--add-opens" "java.base/java.nio=ALL-UNNAMED"'
+%jpackage_script org.hyperledger.besu.Besu "$DEFAULT_JVM_OPTS" "" besu besu false
+
 install -dD -m 755 %{buildroot}%{_bindir}
 
-install -m 0755 build/install/besu/bin/besu %{buildroot}%{_bindir}/besu
+#install -m 0755 build/install/besu/bin/besu %{buildroot}%{_bindir}/besu
 install -m 0755 build/install/besu/bin/evmtool %{buildroot}%{_bindir}/evmtool
 
 install -dD -m 755 %{buildroot}%{_javadir}/%{name}/
