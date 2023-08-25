@@ -9,11 +9,14 @@ URL:     https://www.hyperledger.org/projects/besu
 Source0:  https://github.com/hyperledger/besu/archive/refs/tags/%{version}.tar.gz
 
 Source1:  besu.service
+Source2:  besu.conf
 
 Requires: java-headless
 Requires: javapackages-tools
 BuildRequires: javapackages-tools
 
+#Debugging the build
+BuildRequires: tree
 
 %if 0%{?mageia} > 0
 BuildRequires: systemd
@@ -32,19 +35,24 @@ Besu is an Apache 2.0 licensed, MainNet compatible, Ethereum client written in J
 
 
 %build
-./gradlew installDist
+./gradlew --foreground --console plain installDist
+
+tree
 
 %install
 install -dD -m 755 %{buildroot}%{_bindir}
 
+install -m 0757 besu/build/install/besu/bin/besu %{buildroot}%{_bindir}/besu
+install -m 0757 besu/build/install/besu/bin/evmtool %{buildroot}%{_bindir}/evmtool
+
+install -Dm 644 besu/build/install/besu/lib/*.jar %{buildroot}%{_javadir}/%{name}/
 
 install -dD -m 755 %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 
 install -dD -m 0755 %{buildroot}%{_sharedstatedir}/besu
 
-
-install -dD -m 0750 %{buildroot}%{_sysconfdir}/storj-storagenode
+install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/besu.conf
 
 %pre
 getent group besu >/dev/null || groupadd -r besu
@@ -66,11 +74,13 @@ exit 0
 
 
 %files
-%config %dir %attr(-,-,besu) %{_sysconfdir}/besu
+%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/besu
 %{_bindir}/besu
+%{_bindir}/evmtool
 %{_unitdir}/besu.service
 %attr(0755,besu,besu) %{_sharedstatedir}/besu
 %{_datadir}/besu
+%{_javadir}/%{name}/
 
 
 %changelog

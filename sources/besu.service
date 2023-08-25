@@ -1,7 +1,6 @@
 [Unit]
-Description=Storj Storage Node %i
-After=network.target remote-fs.target storj-storagenode-setup@.service
-Wants=storj-storagenode-setup@.service
+Description=Besu
+After=network.target
 
 [Service]
 Type=simple
