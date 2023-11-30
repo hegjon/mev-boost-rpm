@@ -11,11 +11,12 @@ URL:     https://github.com/flashbots/mev-boost
 
 Source0: https://github.com/flashbots/mev-boost/archive/refs/tags/v%{version}.tar.gz
 
-Source1: mev-boost.service
+Source1: mev-boost@.service
 Source2: mev-boost.conf
 
-#Debugging the build
-BuildRequires: tree
+BuildRequires: go
+BuildRequires: make
+BuildRequires: git
 
 %if 0%{?mageia} > 0
 BuildRequires: systemd
@@ -42,7 +43,7 @@ and censorship-resistance for Ethereum.
 
 
 %build
-make build
+make build VERSION="%{version}-rpm"
 
 %install
 install -dD -m 755 %{buildroot}%{_bindir}
@@ -53,7 +54,7 @@ install -dD -m 755 %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 
 install -dD -m 755 %{buildroot}%{_sysconfdir}/mev-boost
-install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/mainnet.conf
+install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/mev-boost/mainnet.conf
 
 install -dD -m 0755 %{buildroot}%{_sharedstatedir}/mev-boost
 
@@ -79,11 +80,11 @@ exit 0
 %license LICENSE
 %doc CODE_OF_CONDUCT.md CONTRIBUTING.md README.md RELEASE.md SECURITY.md
 %config %dir %attr(0755,root,root) %{_sysconfdir}/mev-boost/
-%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/mev-boost/
+%config(noreplace) %attr(0644,root,root) %{_sysconfdir}/mev-boost/mainnet.conf
 %{_bindir}/mev-boost
 %{_unitdir}/mev-boost@.service
 %attr(0755,mev-boost,mev-boost) %{_sharedstatedir}/mev-boost
 
 %changelog
-* Tue Nov 30 2023 Jonny Heggheim <hegjon@gmail.com> - 1.6-1
+* Thu Nov 30 2023 Jonny Heggheim <hegjon@gmail.com> - 1.6-1
 - Inital packaging
