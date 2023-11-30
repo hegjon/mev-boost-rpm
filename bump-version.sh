@@ -6,8 +6,8 @@ if [ -z "$version" ]; then
     exit 1
 fi
 
-rpmdev-bumpspec -c "Updated to version $version" -n "$version" besu.spec
+rpmdev-bumpspec -c "Updated to version $version" -n "$version" mev-boost.spec
 
-git add besu.spec
+git add mev-boost.spec
 
 git commit -m "Updated to version $version"

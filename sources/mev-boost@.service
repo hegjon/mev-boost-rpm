@@ -1,0 +1,18 @@
+[Unit]
+Description=MEV-Boost on %I
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=mev-boost
+Group=mev-boost
+WorkingDirectory=/var/lib/mev-boost
+Type=simple
+Restart=always
+RestartSec=5
+
+EnvironmentFile=/etc/mev-boost/%i.conf
+ExecStart=/usr/bin/mev-boost $MEV_BOOST_ARGS
+
+[Install]
+WantedBy=multi-user.target
