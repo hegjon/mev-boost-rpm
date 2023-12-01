@@ -3,6 +3,8 @@ Description=MEV-Boost on %I
 Wants=network-online.target
 After=network-online.target
 
+DefaultInstance=mainnet
+
 [Service]
 User=mev-boost
 Group=mev-boost

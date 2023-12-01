@@ -3,7 +3,7 @@
 
 Name:    mev-boost
 Version: 1.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: An implementation of proposer-builder separation (PBS) for Ethereum
 
 License: MIT
@@ -13,6 +13,7 @@ Source0: https://github.com/flashbots/mev-boost/archive/refs/tags/v%{version}.ta
 
 Source1: mev-boost@.service
 Source2: mev-boost.conf
+Source3: mainnet.conf
 
 BuildRequires: go
 BuildRequires: make
@@ -40,7 +41,7 @@ and censorship-resistance for Ethereum.
 
 %prep
 %setup -n %{name}-%{version}
-
+cp %{SOURCE2} .
 
 %build
 make build VERSION="%{version}-rpm"
@@ -54,7 +55,7 @@ install -dD -m 755 %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
 
 install -dD -m 755 %{buildroot}%{_sysconfdir}/mev-boost
-install -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/mev-boost/mainnet.conf
+install -D -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/mev-boost/mainnet.conf
 
 install -dD -m 0755 %{buildroot}%{_sharedstatedir}/mev-boost
 
@@ -79,6 +80,7 @@ exit 0
 %files
 %license LICENSE
 %doc CODE_OF_CONDUCT.md CONTRIBUTING.md README.md RELEASE.md SECURITY.md
+%doc mev-boost.conf
 %config %dir %attr(0755,root,root) %{_sysconfdir}/mev-boost/
 %config(noreplace) %attr(0644,root,root) %{_sysconfdir}/mev-boost/mainnet.conf
 %{_bindir}/mev-boost
@@ -86,5 +88,8 @@ exit 0
 %attr(0755,mev-boost,mev-boost) %{_sharedstatedir}/mev-boost
 
 %changelog
+* Fri Dec 01 2023 Jonny Heggheim <hegjon@gmail.com> - 1.6-2
+- Improved systemd setup
+
 * Thu Nov 30 2023 Jonny Heggheim <hegjon@gmail.com> - 1.6-1
 - Inital packaging
