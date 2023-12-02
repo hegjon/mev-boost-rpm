@@ -3,7 +3,7 @@
 
 Name:    mev-boost
 Version: 1.6
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: An implementation of proposer-builder separation (PBS) for Ethereum
 
 License: MIT
@@ -88,6 +88,9 @@ exit 0
 %attr(0755,mev-boost,mev-boost) %{_sharedstatedir}/mev-boost
 
 %changelog
+* Sat Dec 02 2023 Jonny Heggheim <hegjon@gmail.com> - 1.6-3
+- DefaultInstance in systemd unit file belongs to the Install section
+
 * Fri Dec 01 2023 Jonny Heggheim <hegjon@gmail.com> - 1.6-2
 - Improved systemd setup
 
