@@ -2,7 +2,7 @@
 %global _build_id_links none
 
 Name:    mev-boost
-Version: 1.7
+Version: 1.8
 Release: 1%{?dist}
 Summary: An implementation of proposer-builder separation (PBS) for Ethereum
 
@@ -88,6 +88,9 @@ exit 0
 %attr(0755,mev-boost,mev-boost) %{_sharedstatedir}/mev-boost
 
 %changelog
+* Mon Sep 09 2024 Jonny Heggheim <hegjon@gmail.com> - 1.8-1
+- Updated to version 1.8
+
 * Sun Mar 03 2024 Jonny Heggheim <hegjon@gmail.com> - 1.7-1
 - Updated to version 1.7
 
